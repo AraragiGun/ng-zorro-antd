@@ -144,7 +144,6 @@ export class NzInputGroupComponent implements AfterContentInit, OnChanges, OnIni
   ngOnInit(): void {
     this.focusMonitor
       .monitor(this.elementRef, true)
-      .pipe(takeUntil(this.destroy$))
       .subscribe(focusOrigin => {
         this.focused = !!focusOrigin;
         this.cdr.markForCheck();
@@ -198,7 +197,6 @@ export class NzInputGroupComponent implements AfterContentInit, OnChanges, OnIni
     }
   }
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.focusMonitor.stopMonitoring(this.elementRef);
   }
 }
